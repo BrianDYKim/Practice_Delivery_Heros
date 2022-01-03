@@ -39,12 +39,12 @@ class ModelRecyclerAdapter<M: Model, VM: BaseViewModel>(
     @SuppressLint("UNCHECKED_CAST")
     override fun onBindViewHolder(holder: ModelViewHolder<Model>, position: Int) {
         with(holder) {
-            bindData()
+            bindData(modelList[position] as M)
             bindViews(modelList[position] as M, adapterListener)
         }
     }
 
-    override fun submitList(list: MutableList<Model>?) {
+    override fun submitList(list: List<Model>?) {
         list?.let {
             modelList = it
         }

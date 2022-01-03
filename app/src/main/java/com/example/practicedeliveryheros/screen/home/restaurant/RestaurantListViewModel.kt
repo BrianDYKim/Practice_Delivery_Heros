@@ -4,6 +4,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.example.practicedeliveryheros.data.entity.RestaurantEntity
 import com.example.practicedeliveryheros.data.repository.RestaurantRepository
+import com.example.practicedeliveryheros.model.restaurant.RestaurantModel
 import com.example.practicedeliveryheros.screen.base.BaseViewModel
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
@@ -18,9 +19,22 @@ class RestaurantListViewModel(
     private val restaurantRepository: RestaurantRepository
 ): BaseViewModel() {
 
-    val restaurantListLiveData = MutableLiveData<List<RestaurantEntity>>()
+    val restaurantListLiveData = MutableLiveData<List<RestaurantModel>>()
 
     override fun fetchData(): Job = viewModelScope.launch {
-        restaurantListLiveData.value = restaurantRepository.getList(restaurantCategory)
+        val restaurantList = restaurantRepository.getList(restaurantCategory)
+        restaurantListLiveData.value = restaurantList.map {
+            RestaurantModel(
+                id = it.id,
+                restaurantInfoId = it.restaurantInfoId,
+                restaurantCategory = it.restaurantCategory,
+                restaurantTitle = it.restaurantTitle,
+                restaurantImageUrl = it.restaurantImageUrl,
+                grade = it.grade,
+                reviewCount = it.reviewCount,
+                deliveryTimeRange = it.deliveryTimeRange,
+                deliveryTipRange = it.deliveryTipRange
+            )
+        }
     }
 }

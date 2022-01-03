@@ -23,7 +23,7 @@ abstract class ModelViewHolder<M : Model>(
     // 데이터의 변화가 일어날 때 뷰의 변화를 처리하는 메소드
     abstract fun bindViews(model: M, adapterListener: AdapterListener)
 
-    open fun bindData() {
+    open fun bindData(model: M) {
         reset()
     }
 

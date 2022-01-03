@@ -4,12 +4,14 @@ import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import com.example.practicedeliveryheros.databinding.ViewholderEmptyBinding
+import com.example.practicedeliveryheros.databinding.ViewholderRestaurantBinding
 import com.example.practicedeliveryheros.model.CellType
 import com.example.practicedeliveryheros.model.Model
 import com.example.practicedeliveryheros.screen.base.BaseViewModel
 import com.example.practicedeliveryheros.util.provider.ResourcesProvider
 import com.example.practicedeliveryheros.widget.adapter.viewholder.EmptyViewHolder
 import com.example.practicedeliveryheros.widget.adapter.viewholder.ModelViewHolder
+import com.example.practicedeliveryheros.widget.adapter.viewholder.restaurant.RestaurantViewHolder
 
 /**
  * Model의 타입에 따라 다른 ModelViewHolder를 반환하는 메소드
@@ -32,6 +34,9 @@ object ModelViewHolderMapper {
         val viewHolder = when(type) {
             CellType.EMPTY_CELL -> EmptyViewHolder(
                 ViewholderEmptyBinding.inflate(inflater, parent, false), viewModel, resourcesProvider
+            )
+            CellType.RESTAURANT_CELL -> RestaurantViewHolder(
+                ViewholderRestaurantBinding.inflate(inflater, parent, false), viewModel, resourcesProvider
             )
         }
 

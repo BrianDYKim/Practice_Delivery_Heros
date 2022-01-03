@@ -4,6 +4,7 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="../../../../layout/custom_preview.xml" value="0.33055555555555555" />
+        <entry key="app/src/main/res/drawable-v24/ic_clock.xml" value="0.24166666666666667" />
         <entry key="app/src/main/res/drawable/ic_basket.xml" value="0.2361111111111111" />
         <entry key="app/src/main/res/drawable/ic_close.xml" value="0.2361111111111111" />
         <entry key="app/src/main/res/drawable/ic_home.xml" value="0.25" />
@@ -12,6 +13,7 @@
         <entry key="app/src/main/res/layout/fragment_my.xml" value="0.2703804347826087" />
         <entry key="app/src/main/res/layout/fragment_restaurant_list.xml" value="0.24864130434782608" />
         <entry key="app/src/main/res/layout/viewholder_empty.xml" value="0.2753623188405797" />
+        <entry key="app/src/main/res/layout/viewholder_restaurant.xml" value="0.2572463768115942" />
         <entry key="app/src/main/res/menu/bottom_navigation_menu.xml" value="0.37447916666666664" />
       </map>
     </option>
