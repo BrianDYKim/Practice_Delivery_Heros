@@ -1,5 +1,7 @@
 package com.example.practicedeliveryheros.di
 
+import com.example.practicedeliveryheros.data.network.MapApiService
+import com.example.practicedeliveryheros.data.url.Url
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import org.koin.android.BuildConfig
@@ -23,10 +25,14 @@ fun provideOkHttpClient() : OkHttpClient {
         .build()
 }
 
-fun provideRetrofit(okHttpClient: OkHttpClient, gsonConverterFactory: GsonConverterFactory): Retrofit {
+fun provideMapRetrofit(okHttpClient: OkHttpClient, gsonConverterFactory: GsonConverterFactory): Retrofit {
     return Retrofit.Builder()
-        .baseUrl("")
+        .baseUrl(Url.TMAP_URL)
         .client(okHttpClient)
         .addConverterFactory(gsonConverterFactory)
         .build()
+}
+
+fun provideMapApiService(retrofit: Retrofit): MapApiService {
+    return retrofit.create(MapApiService::class.java)
 }

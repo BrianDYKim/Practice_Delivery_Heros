@@ -16,4 +16,8 @@
 
     <string name="please_setup_your_location_permission">위치 권한을 설정해주세요!</string>
     <string name="cannot_assigned_permission">권한을 받지 못했습니다!</string>
+
+    <string name="cannot_load_address_info">위치 정보를 불러올 수 없습니다.</string>
+
+    <string name="loading">로딩 중...</string>
 </resources>

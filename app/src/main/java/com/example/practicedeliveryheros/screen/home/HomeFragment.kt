@@ -6,10 +6,13 @@ import android.content.Context
 import android.location.Location
 import android.location.LocationListener
 import android.location.LocationManager
+import android.util.Log
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.core.content.getSystemService
+import androidx.core.view.isGone
+import androidx.core.view.isVisible
 import com.example.practicedeliveryheros.R
+import com.example.practicedeliveryheros.data.entity.LocationLatLngEntity
 import com.example.practicedeliveryheros.databinding.FragmentHomeBinding
 import com.example.practicedeliveryheros.screen.base.BaseFragment
 import com.example.practicedeliveryheros.screen.home.restaurant.RestaurantCategory
@@ -49,7 +52,11 @@ class HomeFragment : BaseFragment<HomeViewModel, FragmentHomeBinding>() {
                         getMyLocation()
                     }
 
-                    Toast.makeText(requireContext(), getString(R.string.cannot_assigned_permission), Toast.LENGTH_SHORT).show()
+                    Toast.makeText(
+                        requireContext(),
+                        getString(R.string.cannot_assigned_permission),
+                        Toast.LENGTH_SHORT
+                    ).show()
                 }
             }
         }
@@ -57,16 +64,27 @@ class HomeFragment : BaseFragment<HomeViewModel, FragmentHomeBinding>() {
     // LiveData를 제어
     override fun observeData() = viewModel.homeStateLiveData.observe(viewLifecycleOwner) {
         when (it) {
-            HomeState.Uninitialized -> {
+            is HomeState.Uninitialized -> {
                 getMyLocation()
             }
 
-            HomeState.Loading -> {
-
+            is HomeState.Loading -> {
+                with(binding) {
+                    locationLoading.isVisible = true
+                    locationTitleText.text = getString(R.string.loading)
+                }
             }
 
-            HomeState.Success -> {
+            is HomeState.Success -> {
+                with(binding) {
+                    locationLoading.isGone = true
+                    locationTitleText.text = it.mapSearchInfo.fullAddress
+                    initViewPager(it.mapSearchInfo.locationLatLng)
+                }
+            }
 
+            is HomeState.Error -> {
+                Toast.makeText(requireContext(), it.messageId, Toast.LENGTH_SHORT).show()
             }
         }
     }
@@ -113,12 +131,7 @@ class HomeFragment : BaseFragment<HomeViewModel, FragmentHomeBinding>() {
         }
     }
 
-    override fun initViews() {
-        super.initViews()
-        initViewPager()
-    }
-
-    private fun initViewPager() = with(binding) {
+    private fun initViewPager(locationLatLngEntity: LocationLatLngEntity) = with(binding) {
         val restaurantCategories = RestaurantCategory.values()
 
         if (::viewPagerAdapter.isInitialized.not()) {
@@ -164,7 +177,18 @@ class HomeFragment : BaseFragment<HomeViewModel, FragmentHomeBinding>() {
     inner class MyLocationListener : LocationListener {
 
         override fun onLocationChanged(location: Location) {
-            binding.locationTitleText.text = "${location.latitude}, ${location.longitude}"
+
+            with(viewModel) {
+                homeStateLiveData.value = HomeState.Loading
+
+                loadReverseGeoInformation(
+                    LocationLatLngEntity(
+                        latitude = location.latitude,
+                        longitude = location.longitude
+                    )
+                )
+            }
+
             removeLocationListener()
         }
     }
